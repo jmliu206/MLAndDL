@@ -10,7 +10,8 @@ from network import *
 import transforms
 # from torchvision import transforms
 import cv2
-from boxes import batched_nms
+# from boxes import batched_nms
+from py_cpu_nms import py_cpu_nms
 
 _GRAY = (218, 227, 218)
 _GREEN = (18, 127, 15)
@@ -50,9 +51,9 @@ def apply_nms(prediction,conf_thres=0.8,nms_thres=0.4,filter_labels=[],device="c
                 # _boxes=_boxes[conf_sort_index]
 
                 # """
-                # keep=py_cpu_nms(_boxes.cpu().numpy(),_scores.cpu().numpy(),nms_thres)
+                keep=py_cpu_nms(_boxes.cpu().numpy(),_scores.cpu().numpy(),nms_thres)
                 # keep = nms(_boxes, _scores, nms_thres)
-                keep = batched_nms(_boxes, _scores,_labels, nms_thres)
+                # keep = batched_nms(_boxes, _scores,_labels, nms_thres)
                 last_scores.extend(_scores[keep])
                 last_labels.extend(_labels[keep])
                 last_boxes.extend(_boxes[keep])
